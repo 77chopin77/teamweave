@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/teamweave
+    username: teamweave
+    password: teamweave
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: false
+  main:
+    web-application-type: servlet
+
+# JWT 設定
+jwt:
+  secret: "pPr3U4f0w1nIMyD2hE1G9zQ8lV6rX0yJ7bW2cM5tA9kQ4sN1eR8vL2pF6dH0uK3aZ7q"
+  expiration-seconds: 3600
+
+# ✅ Swagger / OpenAPI 設定
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    operations-sorter: method
