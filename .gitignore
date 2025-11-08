@@ -1,0 +1,28 @@
+# macOS system files
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+
+# Java & Gradle
+/build/
+/bin/
+/out/
+/target/
+.gradle/
+/settings/
+/.settings/
+/.classpath
+.project
+
+# Logs / Temp files
+*.log
+tmp/
+logs/
+
+# OS-generated files
+Thumbs.db
+
