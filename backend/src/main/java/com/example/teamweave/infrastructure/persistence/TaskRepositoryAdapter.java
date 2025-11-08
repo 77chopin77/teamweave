@@ -69,8 +69,10 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
     private Task toDomain(TaskJpaEntity e) {
         var t = new Task(new TaskId(e.getId()), e.getTitle());
         t.setDescription(e.getDescription());
-        if (e.getUserId() != null) t.setUser(new UserId(e.getUserId()));
-        if (e.getAssigneeId() != null) t.setAssignee(new UserId(e.getAssigneeId()));
+        if (e.getUserId() != null)
+            t.setUser(new UserId(e.getUserId()));
+        if (e.getAssigneeId() != null)
+            t.setAssignee(new UserId(e.getAssigneeId()));
         t.setDueDate(e.getDueDate());
         t.setStatus(Task.Status.valueOf(e.getStatus()));
         return t;

@@ -14,10 +14,10 @@ public class TaskJpaEntity {
     private UUID id;
 
     @Column(nullable = false, columnDefinition = "uuid")
-    private UUID userId;      // タスク所有者
+    private UUID userId; // タスク所有者
 
     @Column(columnDefinition = "uuid")
-    private UUID assigneeId;  // 担当者
+    private UUID assigneeId; // 担当者
 
     private String title;
     private String description;
@@ -25,24 +25,59 @@ public class TaskJpaEntity {
     private OffsetDateTime dueDate;
 
     // --- Getter / Setter ---
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
+    public UUID getId() {
+        return id;
+    }
 
-    public UUID getUserId() { return userId; }
-    public void setUserId(UUID userId) { this.userId = userId; }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-    public UUID getAssigneeId() { return assigneeId; }
-    public void setAssigneeId(UUID assigneeId) { this.assigneeId = assigneeId; }
+    public UUID getUserId() {
+        return userId;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public UUID getAssigneeId() {
+        return assigneeId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setAssigneeId(UUID assigneeId) {
+        this.assigneeId = assigneeId;
+    }
 
-    public OffsetDateTime getDueDate() { return dueDate; }
-    public void setDueDate(OffsetDateTime dueDate) { this.dueDate = dueDate; }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public OffsetDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(OffsetDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
 }
