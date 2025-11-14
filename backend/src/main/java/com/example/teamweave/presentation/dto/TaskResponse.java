@@ -1,4 +1,4 @@
-package com.example.teamweave.application.dto;
+package com.example.teamweave.presentation.dto;
 
 import com.example.teamweave.domain.model.Task;
 import java.util.UUID;

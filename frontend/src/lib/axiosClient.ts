@@ -1,19 +1,20 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "http://localhost:8080/api", // バックエンドのエンドポイント
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// ✅ リクエストごとにトークンを自動付与
+// リクエストごとにトークンを自動付与
 axiosClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      // headers が存在しない場合は初期化
+
+      // headersが存在しない場合は初期化
       if (!config.headers) {
         config.headers = {} as any;
       }

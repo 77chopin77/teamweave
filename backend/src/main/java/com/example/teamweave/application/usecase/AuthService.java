@@ -1,45 +1,50 @@
 package com.example.teamweave.application.usecase;
 
 import com.example.teamweave.application.port.in.AuthUseCase;
-import com.example.teamweave.infrastructure.persistence.UserJpaRepository;
-import com.example.teamweave.infrastructure.persistence.entity.UserJpaEntity;
-import com.example.teamweave.infrastructure.security.JwtProvider;
+import com.example.teamweave.application.port.out.UserRepositoryPort;
+import com.example.teamweave.application.port.out.TokenProviderPort;
+import com.example.teamweave.domain.model.User;
+import com.example.teamweave.domain.model.UserId;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
+
+
 @Service
 public class AuthService implements AuthUseCase {
-    private final UserJpaRepository users;
-    private final PasswordEncoder encoder;
-    private final JwtProvider jwtProvider;
 
-    public AuthService(UserJpaRepository users, PasswordEncoder encoder, JwtProvider jwtProvider) {
+    private final UserRepositoryPort users;
+    private final PasswordEncoder encoder;
+    private final TokenProviderPort tokenProvider;
+
+    public AuthService(UserRepositoryPort users, PasswordEncoder encoder, TokenProviderPort tokenProvider) {
         this.users = users;
         this.encoder = encoder;
-        this.jwtProvider = jwtProvider;
+        this.tokenProvider = tokenProvider;
     }
 
+    // DBに同じメールがすでにあったら、エラーを投げる
     @Override
     public void signup(String email, String password) {
         if (users.findByEmail(email).isPresent())
             throw new IllegalArgumentException("Email already exists");
 
-        var user = new UserJpaEntity();
-        user.setId(UUID.randomUUID()); // ✅ UUID型で保存
-        user.setEmail(email);
-        user.setPasswordHash(encoder.encode(password));
+        // 新しいユーザーを作る
+        var user = new User(new UserId(UUID.randomUUID()), email, encoder.encode(password));
         users.save(user);
     }
 
+    // 入力されたメールアドレスでユーザーを検索
     @Override
     public String login(String email, String password) {
-        var entity = users.findByEmail(email)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        if (!encoder.matches(password, entity.getPasswordHash()))
+        var user = users.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        // 入力されたパスワードと、DBに保存されているハッシュ値を照合
+        if (!encoder.matches(password, user.getPasswordHash()))
             throw new IllegalArgumentException("Invalid credentials");
 
-        return jwtProvider.generateToken(entity.getId()); // ✅ 1引数に修正
+        // ユーザーIDをもとにJWTトークンを作り、それを返す
+        return tokenProvider.generateToken(user.getId().value());
     }
 }

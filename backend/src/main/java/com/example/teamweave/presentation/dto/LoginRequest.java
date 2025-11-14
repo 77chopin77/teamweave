@@ -1,3 +1,3 @@
-package com.example.teamweave.application.dto;
+package com.example.teamweave.presentation.dto;
 
 public record LoginRequest(String email, String password) {}

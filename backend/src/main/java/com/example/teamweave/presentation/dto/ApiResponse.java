@@ -1,5 +1,8 @@
-package com.example.teamweave.application.dto;
+package com.example.teamweave.presentation.dto;
 
+/* ===== APIのレスポンス（返り値）の形を決めるための共通フォーマットクラス ===== */ 
+
+// <T>というは型しか持ってない。GlobalExceptionHandlerで具体的な型を決める。
 public record ApiResponse<T>(
     boolean success,
     String message,

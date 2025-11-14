@@ -6,6 +6,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tasks")
+
+/* データベースの tasks テーブルと Java オブジェクトを1対1で対応づけるためのクラス（JPAエンティティ） */
 public class TaskJpaEntity {
 
     @Id

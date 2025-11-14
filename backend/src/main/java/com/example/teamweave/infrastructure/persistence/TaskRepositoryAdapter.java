@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/* DBエンティティ(TaskJpaEntity)とドメイン(Task)を変換して永続化を仲介するアダプタ */
 @Component
 public class TaskRepositoryAdapter implements TaskRepositoryPort {
 
@@ -17,6 +18,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         this.jpa = jpa;
     }
 
+    // TaskをDBに保存
     @Override
     public Task save(Task t) {
         var e = new TaskJpaEntity();
@@ -28,14 +30,16 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
         e.setStatus(t.getStatus().name());
         e.setDueDate(t.getDueDate());
         jpa.save(e);
-        return t; // 再読込省略
+        return t;
     }
 
+    // IDで検索
     @Override
     public Optional<Task> findById(TaskId id) {
         return jpa.findById(id.value()).map(this::toDomain);
     }
 
+    // 担当者で検索
     @Override
     public List<Task> findAllByAssignee(UserId userId) {
         return jpa.findByAssigneeId(userId.value())
@@ -44,6 +48,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .collect(Collectors.toList());
     }
 
+    // 所有者確認付き検索    
     @Override
     public Optional<Task> findByIdAndUserId(UUID taskId, UUID userId) {
         return jpa.findById(taskId)
@@ -51,6 +56,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .map(this::toDomain);
     }
 
+    // 所有者確認付き削除
     @Override
     public void deleteByIdAndUserId(UUID taskId, UUID userId) {
         jpa.findById(taskId)
@@ -58,7 +64,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .ifPresent(jpa::delete);
     }
 
-    /** ✅ findByUserId をUUID対応で実装 */
+    // 所有者で全件取得
     public List<Task> findByUserId(UserId userId) {
         return jpa.findByUserId(userId.value())
                 .stream()
@@ -66,6 +72,7 @@ public class TaskRepositoryAdapter implements TaskRepositoryPort {
                 .collect(Collectors.toList());
     }
 
+    // DBをドメイン変換する
     private Task toDomain(TaskJpaEntity e) {
         var t = new Task(new TaskId(e.getId()), e.getTitle());
         t.setDescription(e.getDescription());

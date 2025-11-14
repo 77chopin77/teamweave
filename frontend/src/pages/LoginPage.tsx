@@ -11,13 +11,14 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // 入力チェック
     if (!email || !password) {
       setError("メールアドレスとパスワードを入力してください。");
       return;
     }
 
     try {
-      // ✅ Spring Boot の /api/auth/login にPOST
+      // Spring Boot の /api/auth/login にPOST
       const res = await axiosClient.post<{ token: string }>("/auth/login", {
         email,
         password,
@@ -25,7 +26,7 @@ export default function LoginPage() {
       localStorage.setItem("token", res.data.token);
 
 
-      // ✅ トークン保存
+      // トークン保存
       localStorage.setItem("token", res.data.token);
       alert("ログイン成功！");
       navigate("/home");
@@ -39,6 +40,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      {/* ログインフォーム */}
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-2xl font-bold text-center mb-6">ログイン</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -46,6 +48,7 @@ export default function LoginPage() {
             <label className="block text-sm font-medium mb-1 text-gray-700">
               メールアドレス
             </label>
+            {/* メールアドレス入力 */}
             <input
               type="email"
               value={email}
@@ -57,6 +60,7 @@ export default function LoginPage() {
             <label className="block text-sm font-medium mb-1 text-gray-700">
               パスワード
             </label>
+            {/* パスワード入力 */}
             <input
               type="password"
               value={password}

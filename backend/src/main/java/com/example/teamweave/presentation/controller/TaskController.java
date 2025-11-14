@@ -1,6 +1,6 @@
 package com.example.teamweave.presentation.controller;
 
-import com.example.teamweave.application.dto.ApiResponse;
+import com.example.teamweave.presentation.dto.ApiResponse;
 import com.example.teamweave.application.usecase.*;
 import com.example.teamweave.domain.model.Task;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Map;
 
+/*　===== タスクのCRUDを提供するAPI ===== */
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -26,6 +27,7 @@ public class TaskController {
         this.updateTaskService = updateTaskService;
         this.deleteTaskService = deleteTaskService;
     }
+
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<Task>>> getTasks(

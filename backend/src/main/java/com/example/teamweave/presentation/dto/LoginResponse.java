@@ -1,4 +1,4 @@
-package com.example.teamweave.application.dto;
+package com.example.teamweave.presentation.dto;
 
 public class LoginResponse {
     private String token;

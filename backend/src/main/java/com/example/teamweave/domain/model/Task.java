@@ -2,25 +2,27 @@ package com.example.teamweave.domain.model;
 
 import java.time.OffsetDateTime;
 
-
+/* タスクを表すドメインモデル（ビジネス上の中心的な概念） */
 public class Task {
-    private TaskId id;
-    private UserId user;       // 所有者
-    private UserId assignee;   // 担当者
-    private String title;
-    private String description;
-    private Status status;
-    private OffsetDateTime dueDate;
+    private TaskId id;              // タスクID
+    private UserId user;            // 所有者
+    private UserId assignee;        // 担当者
+    private String title;           // タイトル
+    private String description;     // 詳細説明
+    private Status status;          // 状態
+    private OffsetDateTime dueDate; // 期限日
 
+    // タスクの状態を定義する列挙型
     public enum Status { TODO, IN_PROGRESS, DONE }
 
+    // コンストラクタ
     public Task(TaskId id, String title) {
         this.id = id;
         this.title = title;
         this.status = Status.TODO;
     }
 
-    // --- Getters / Setters ---
+    // ゲッターとセッター
     public TaskId getId() { return id; }
     public void setId(TaskId id) { this.id = id; }
 

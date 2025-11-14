@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
+
+/* tasksテーブルにアクセスするためのリポジトリ。SQLを書かずにデータを取得・保存できる「自動SQL生成リポジトリ */
 public interface TaskJpaRepository extends CrudRepository<TaskJpaEntity, UUID> {
 
     // タスクの所有者（user_id）で検索

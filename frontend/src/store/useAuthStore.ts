@@ -15,10 +15,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   password: "",
   token: null,
 
+  // 入力変更ハンドラ
   setUsername: (name) => set({ username: name }),
   setPassword: (pw) => set({ password: pw }),
 
-  // ✅ Spring Boot へログインリクエスト
+  // Spring Boot へログインリクエスト
   login: async () => {
     const { username, password } = get();
     try {

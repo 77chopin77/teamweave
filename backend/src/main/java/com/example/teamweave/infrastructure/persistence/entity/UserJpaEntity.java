@@ -5,6 +5,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+
+/* usersテーブルと対応するJPAのエンティティクラス(JPAエンティティ) */
 public class UserJpaEntity {
 
     @Id

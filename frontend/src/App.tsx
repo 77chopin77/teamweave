@@ -11,7 +11,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
 
-      {/* ✅ Homeは保護ルート */}
+      {/* 認証保護ルート */}
       <Route
         path="/home"
         element={

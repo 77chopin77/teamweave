@@ -3,33 +3,44 @@ import { useNavigate } from "react-router-dom";
 import axiosClient from "../lib/axiosClient";
 
 export default function SignupPage() {
+
+  // フォームの入力値を保持する状態変数
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // エラーメッセージと成功メッセージの状態
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // フォーム送信処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
 
+    // 入力チェック
     if (!email || !password || !confirmPassword) {
       setError("すべての項目を入力してください。");
       return;
     }
 
+    // パスワード一致チェック
     if (password !== confirmPassword) {
       setError("パスワードが一致しません。");
       return;
     }
 
     try {
+      // Spring Boot の AuthController にPOST（/api/auth/signup）
       await axiosClient.post("/auth/signup", { email, password });
+
+      // ✅ 成功メッセージを表示し、1.5秒後にログインページへ遷移
       setSuccess("アカウントを作成しました！");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err: any) {
+      // API側からのエラーメッセージを表示
       console.error(err);
       setError(err.response?.data?.message || "登録に失敗しました。");
     }

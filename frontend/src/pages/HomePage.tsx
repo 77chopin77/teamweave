@@ -12,6 +12,7 @@ export default function HomePage() {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
 
+  // ページ表示時にログインユーザーを取得
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -19,21 +20,20 @@ export default function HomePage() {
         setUser(res.data);
       } catch (err) {
         console.error(err);
-        alert("セッションが切れました。再ログインしてください。");
-        localStorage.removeItem("token");
-        navigate("/login");
       }
     };
 
     fetchUser();
   }, []);
 
+  {/* ログイン中ユーザー情報 */}
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white shadow-md rounded-xl p-8 w-96 text-center">
         <h1 className="text-2xl font-bold mb-4">ホーム画面</h1>
         {user ? (
           <>
+          {/* ログアウト処理 */} 
             <p className="text-gray-700 mb-2">ようこそ、{user.username ?? user.email} さん！</p>
             <p className="text-sm text-gray-500 mb-6">ユーザーID: {user.id}</p>
             <button

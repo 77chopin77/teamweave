@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.UUID;
 
+/* ===== ログイン中ユーザーの情報（id, email）を取得するAPI ===== */
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

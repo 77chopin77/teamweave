@@ -9,17 +9,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+/* 新しいタスクを作成して、ログイン中のユーザーに紐づけて保存する */
 @Service
 public class CreateTaskService {
 
+    // タスクを保存・取得するためのポート（Repositoryの抽象化）
     private final TaskRepositoryPort taskRepository;
+
+    //  JWTの検証・ユーザーID抽出を担当
     private final JwtProvider jwt;
 
+    // コンストラクタでDI（依存性注入）
     public CreateTaskService(TaskRepositoryPort taskRepository, JwtProvider jwt) {
         this.taskRepository = taskRepository;
         this.jwt = jwt;
     }
 
+    // タスクを作成するユースケース（目的と手順の宣言）
     public void createTask(String token, String title) {
         UUID userUuid = UUID.fromString(jwt.validateAndGetUserId(token));
 

@@ -14,13 +14,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     // パスワードエンコーダーのBean登録
-    @Bean
+    @Bean  // DI注入
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // セキュリティ設定
-    @Bean
+    // セキュリティ設定（元々パッケージで定義されてるものを書き換える）
+    @Bean // DI注入
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
 
         http
@@ -28,18 +28,18 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
 
             // セッションを使わない（JWT運用のため）
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // SessionCreationPolicyのenum型であるSTATLESS（サーバーにセッションを保存しない）を使う
 
             // ルートごとのアクセス制御
             .authorizeHttpRequests(auth -> auth
                 // 認証不要なエンドポイント
                 .requestMatchers(
-                    "/test",              // ← ★追加：curlテスト用
-                    "/api/test",          // ← 念のため両方
-                    "/api/auth/**",       // ← ログイン・サインアップ
-                    "/swagger-ui.html",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**"
+                    "/test",  // curlテスト用
+                    "/api/test",          // API経由のテスト
+                    "/api/auth/**",       // ログイン・サインアップ
+                    "/swagger-ui.html",   // Swaggerトップページ
+                    "/swagger-ui/**",     // Swaggerの静的リソース
+                    "/v3/api-docs/**"    // Swaggerのメタ情報(APIの使い方を機械が理解できるようにまとめた説明書データ)
                 ).permitAll()
 
                 // それ以外は認証が必要
